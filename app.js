@@ -69,6 +69,10 @@ document.addEventListener('DOMContentLoaded', () => {
             musicToggle.classList.remove('playing');
             musicToggle.innerHTML = '<i class="fa-solid fa-music"></i>';
         } else {
+            // Si es la primera vez que se reproduce, comenzar en el segundo 65 (1:05)
+            if (audio.currentTime === 0) {
+                audio.currentTime = 65;
+            }
             audio.play().catch(error => {
                 console.log("El navegador bloqueó la reproducción automática, interactúa primero.");
             });
@@ -77,6 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         isPlaying = !isPlaying;
     });
+
 
     // 4. RSVP FORMULARIO (REDISRECCIÓN A WHATSAPP)
     const rsvpForm = document.getElementById('rsvpForm');
