@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Mis 27 Años! - Invitación Elite</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Montserrat:wght@300;400;600;700&family=Playfair+Display:ital,wght@1,600&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Leaflet CSS (Mapa interactivo sin API keys) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Capa de música de fondo (Música instrumental elegante/festiva) -->
+    <div class="audio-control" id="audioControl">
+        <button id="musicToggle" class="music-btn" aria-label="Reproducir música">
+            <i class="fa-solid fa-music"></i>
+        </button>
+        <audio id="bgMusic" loop>
+            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+        </audio>
+    </div>
+
+    <!-- Contenedor Principal (Límites para escritorio y responsivo para móvil) -->
+    <div class="app-container">
+        
+        <!-- SECCIÓN 1: PORTADA / HERO -->
+        <header class="hero-section">
+            <div class="overlay-leaves"></div>
+            <div class="hero-content">
+                <span class="subtitle scroll-anim">ESTÁS INVITADO A MI</span>
+                <h1 class="main-title scroll-anim">CUMPLEAÑOS</h1>
+                <div class="age-badge scroll-anim">27</div>
+                <div class="name-title scroll-anim">Oscar Ruben</div>
+                <p class="hero-date scroll-anim">Sábado 11 de Julio • 8:00 PM</p>
+                <div class="arrow-down scroll-anim">
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+            </div>
+        </header>
+
+
+        <!-- SECCIÓN 2: CUENTA REGRESIVA -->
+        <section class="countdown-section text-center card-section">
+            <h2 class="section-title gold-gradient">FALTAN SÓLO...</h2>
+            <div class="countdown-container">
+                <div class="time-block">
+                    <span id="days">00</span>
+                    <label>Días</label>
+                </div>
+                <div class="time-block">
+                    <span id="hours">00</span>
+                    <label>Horas</label>
+                </div>
+                <div class="time-block">
+                    <span id="minutes">00</span>
+                    <label>Mins</label>
+                </div>
+                <div class="time-block">
+                    <span id="seconds">00</span>
+                    <label>Segs</label>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 3: FRASE INTERACTIVA -->
+        <section class="quote-section card-section text-center">
+            <div class="quote-icon">
+                <i class="fa-solid fa-quote-right"></i>
+            </div>
+            <p class="quote-text">
+                "27 años acumulando juventud, experiencia y un poquito de dolor de rodilla. Acompáñame a celebrar que todavía podemos salir de fiesta sin necesitar dos días de recuperación."
+            </p>
+            <span class="quote-author">— Oscar Ruben, siempre joven.</span>
+        </section>
+
+
+
+        <!-- SECCIÓN 4: DETALLES DEL EVENTO -->
+        <section class="details-section card-section">
+            <h2 class="section-title gold-gradient text-center">¿CUÁNDO Y DÓNDE?</h2>
+            
+            <div class="details-grid">
+                <div class="detail-item">
+                    <div class="detail-icon">
+                        <i class="fa-regular fa-calendar-check"></i>
+                    </div>
+                    <h3>Día de la Fiesta</h3>
+                    <p>Sábado 11 de Julio</p>
+                    <span class="small-text">(Mi cumple real es el 08/07)</span>
+                </div>
+                
+                <div class="detail-item">
+                    <div class="detail-icon">
+                        <i class="fa-regular fa-clock"></i>
+                    </div>
+                    <h3>Hora</h3>
+                    <p>08:00 PM</p>
+                </div>
+
+                <div class="detail-item">
+                    <div class="detail-icon">
+                        <i class="fa-solid fa-shirt"></i>
+                    </div>
+                    <h3>Código de Vestimenta</h3>
+                    <p class="dress-code">Sport Casual</p>
+                </div>
+
+                <div class="detail-item">
+                    <div class="detail-icon">
+                        <i class="fa-solid fa-gift"></i>
+                    </div>
+                    <h3>Entrada</h3>
+                    <p class="entry-requirement">Trago + Regalo</p>
+                </div>
+            </div>
+
+
+            <div class="location-container">
+                <div class="detail-icon">
+                    <i class="fa-solid fa-location-dot"></i>
+                </div>
+                <h3>Ubicación</h3>
+                <p class="address">Jirón las Gemas 483, SJL, Lima</p>
+                
+                <!-- Contenedor del Mapa -->
+                <div id="map" class="map-view"></div>
+                
+                <div class="navigation-buttons">
+                    <a href="https://www.google.com/maps/search/?api=1&query=-11.994043641469801,-77.00416030036027" target="_blank" class="nav-btn google-maps">
+                        <i class="fa-brands fa-google"></i> Google Maps
+                    </a>
+                    <a href="https://waze.com/ul?ll=-11.994043641469801,-77.00416030036027&navigate=yes" target="_blank" class="nav-btn waze">
+                        <i class="fa-brands fa-waze"></i> Waze
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 5: RSVP / CONFIRMACIÓN -->
+        <section class="rsvp-section card-section text-center">
+            <h2 class="section-title gold-gradient">CONFIRMAR ASISTENCIA</h2>
+            <p class="rsvp-instructions">Por favor, confirma tu asistencia antes del 9 de Julio para poder organizar todo perfectamente.</p>
+            
+            <form id="rsvpForm" class="rsvp-form">
+                <div class="input-group">
+                    <input type="text" id="guestName" required placeholder="Tu Nombre Completo">
+                </div>
+                
+                <div class="radio-group">
+                    <label class="radio-container">
+                        <input type="radio" name="attendance" value="si" checked>
+                        <span class="checkmark"></span>
+                        Sí, iré a celebrar contigo 🎉
+                    </label>
+                    <label class="radio-container">
+                        <input type="radio" name="attendance" value="no">
+                        <span class="checkmark"></span>
+                        Lo siento, no podré ir 😢
+                    </label>
+                </div>
+
+                <div class="input-group select-guests" id="guestsCountGroup">
+                    <label for="guestsCount">Acompañantes:</label>
+                    <select id="guestsCount">
+                        <option value="0">Solo yo</option>
+                        <option value="1">+1 Acompañante</option>
+                        <option value="2">+2 Acompañantes</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    <i class="fa-brands fa-whatsapp"></i> Confirmar por WhatsApp
+                </button>
+            </form>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="main-footer text-center">
+            <p>¡Te espero para celebrar a lo grande!</p>
+            <div class="footer-gold-line"></div>
+            <p class="credits">Diseñado con elegancia • 2026</p>
+        </footer>
+    </div>
+
+    <!-- Leaflet JS (Mapa interactivo) -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="app.js"></script>
+</body>
+</html>
